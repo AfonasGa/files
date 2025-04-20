@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скачать nekitGDPS.json</title>
+    <script>
+        window.onload = function() {
+            // Имя файла, который нужно скачать
+            const fileName = "nekitGDPS.json";
+            
+            // Пытаемся загрузить файл
+            fetch(fileName)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Файл не найден!");
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Создаем ссылку для скачивания
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = fileName; // Указываем имя файла
+                    document.body.appendChild(a);
+                    a.click(); // Автоматический клик
+                    
+                    // Очищаем память
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                })
+                .catch(error => {
+                    console.error("Ошибка:", error);
+                    alert("Файл nekitGDPS.json не найден в этой папке!");
+                });
+        };
+    </script>
+</head>
+<body>
+    <p>Если скачивание не началось, <a href="nekitGDPS.json" download>нажмите сюда</a>.</p>
+</body>
+</html>
